@@ -1,0 +1,13 @@
+name: 'Create release'
+description: 'Creates a release using the GitHub API'
+inputs:
+  input:
+    description: 'description'
+    required: true
+    default: 'input'
+outputs:
+  output:
+    description: 'output'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

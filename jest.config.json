@@ -1,0 +1,9 @@
+{
+  "testEnvironment": "node",
+  "moduleFileExtensions": ["js", "ts"],
+  "testMatch": ["<rootDir>/tests/**/*.test.ts"],
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  },
+  "verbose": true
+}

@@ -1,0 +1,40 @@
+{
+  "name": "create-release",
+  "scripts": {
+    "build": "ncc build src/main.ts",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --fix --ext .ts",
+    "format": "prettier src/**/*.ts --write",
+    "sync": "git submodule update --recursive --remote",
+    "tag:bash": "npm run sync && bash ./update-tags-script/update_tags.sh"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build && git add dist/index.js",
+      "pre-push": "npm test",
+      "post-merge": "npm run sync"
+    }
+  },
+  "lint-staged": {
+    "*.ts": ["npm run format", "npm run lint:fix"]
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "@vercel/ncc": "^0.36.1",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^4.3.8",
+    "jest": "^29.6.2",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.1",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
+  }
+}
