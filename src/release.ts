@@ -7,11 +7,30 @@ type RepoContext = {
   repo: string;
 };
 
+export type Release = {
+  id: number;
+  nodeId: string;
+  url: string;
+  htmlUrl: string;
+  assetsUrl: string;
+  uploadUrl: string;
+  tarballUrl?: string;
+  zipballUrl?: string;
+  tagName: string;
+  targetCommitish: string;
+  name?: string;
+  body?: string;
+  draft: boolean;
+  prerelease: boolean;
+  createdAt: string;
+  publishedAt?: string;
+};
+
 export async function createRelease(
   repoContext: RepoContext,
   inputs: Inputs,
   token: string
-): Promise<void> {
+): Promise<Release> {
   const { repos } = getOctokit(token).rest;
   const {
     tagName,
@@ -21,7 +40,7 @@ export async function createRelease(
     makeLatest
   } = inputs;
 
-  await repos.createRelease({
+  const { data } = await repos.createRelease({
     ...repoContext,
     ...inputs,
     tag_name: tagName,
@@ -30,4 +49,31 @@ export async function createRelease(
     generate_release_notes: generateReleaseNotes,
     make_latest: makeLatest
   });
+
+  const {
+    node_id,
+    html_url,
+    assets_url,
+    upload_url,
+    tarball_url,
+    zipball_url,
+    tag_name,
+    target_commitish,
+    created_at,
+    published_at
+  } = data;
+
+  return {
+    ...data,
+    nodeId: node_id,
+    htmlUrl: html_url,
+    assetsUrl: assets_url,
+    uploadUrl: upload_url,
+    tarballUrl: tarball_url ?? undefined,
+    zipballUrl: zipball_url ?? undefined,
+    tagName: tag_name,
+    targetCommitish: target_commitish,
+    createdAt: created_at,
+    publishedAt: published_at ?? undefined
+  } as Release;
 }

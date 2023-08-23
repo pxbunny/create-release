@@ -9740,7 +9740,9 @@ function createRelease(repoContext, inputs, token) {
     return __awaiter(this, void 0, void 0, function* () {
         const { repos } = (0, github_1.getOctokit)(token).rest;
         const { tagName, targetCommitish, discussionCategoryName, generateReleaseNotes, makeLatest } = inputs;
-        yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), inputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));
+        const { data } = yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), inputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));
+        const { node_id, html_url, assets_url, upload_url, tarball_url, zipball_url, tag_name, target_commitish, created_at, published_at } = data;
+        return Object.assign(Object.assign({}, data), { nodeId: node_id, htmlUrl: html_url, assetsUrl: assets_url, uploadUrl: upload_url, tarballUrl: tarball_url !== null && tarball_url !== void 0 ? tarball_url : undefined, zipballUrl: zipball_url !== null && zipball_url !== void 0 ? zipball_url : undefined, tagName: tag_name, targetCommitish: target_commitish, createdAt: created_at, publishedAt: published_at !== null && published_at !== void 0 ? published_at : undefined });
     });
 }
 exports.createRelease = createRelease;

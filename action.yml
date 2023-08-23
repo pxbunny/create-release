@@ -32,6 +32,39 @@ inputs:
     description: 'Specifies whether this release should be set as the latest release for the repository.'
     required: false
     default: false
+outputs:
+  id:
+    description: ''
+  node_id:
+    description: ''
+  url:
+    description: ''
+  html_url:
+    description: ''
+  assets_url:
+    description: ''
+  upload_url:
+    description: ''
+  tarball_url:
+    description: ''
+  zipball_url:
+    description: ''
+  tag_name:
+    description: ''
+  target_commitish:
+    description: ''
+  name:
+    description: ''
+  body:
+    description: ''
+  draft:
+    description: ''
+  prerelease:
+    description: ''
+  created_at:
+    description: ''
+  published_at:
+    description: ''
 runs:
   using: 'node16'
   main: 'dist/index.js'
