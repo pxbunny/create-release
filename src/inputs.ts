@@ -9,7 +9,7 @@ export type Inputs = {
   body?: string;
   draft: boolean;
   prerelease: boolean;
-  discussionCategoryName: string;
+  discussionCategoryName?: string;
   generateReleaseNotes: boolean;
   makeLatest: string;
 };
