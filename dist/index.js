@@ -9640,11 +9640,11 @@ function wrappy (fn, cb) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toSnakeCase = void 0;
-function toSnakeCase(str) {
-    return str.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
+exports.toKebabCase = void 0;
+function toKebabCase(str) {
+    return str.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 }
-exports.toSnakeCase = toSnakeCase;
+exports.toKebabCase = toKebabCase;
 
 
 /***/ }),
@@ -9674,15 +9674,15 @@ function getBooleanInput(name, required = false) {
 }
 function getInputs() {
     var _a;
-    const tagName = getStringInput('tag_name', [], true).replace('refs/tags/', '');
-    const targetCommitish = getStringInput('target_commitish');
+    const tagName = getStringInput('tag-name', [], true).replace('refs/tags/', '');
+    const targetCommitish = getStringInput('target-commitish');
     const name = (_a = getStringInput('name')) === null || _a === void 0 ? void 0 : _a.replace('refs/tags/', '');
     const body = getStringInput('body');
     const draft = getBooleanInput('draft');
     const prerelease = getBooleanInput('prerelease');
-    const discussionCategoryName = getStringInput('discussion_category_name');
-    const generateReleaseNotes = getBooleanInput('generate_release_notes');
-    const makeLatest = getStringInput('make_latest', [
+    const discussionCategoryName = getStringInput('discussion-category-name');
+    const generateReleaseNotes = getBooleanInput('generate-release-notes');
+    const makeLatest = getStringInput('make-latest', [
         'true',
         'false',
         'legacy'
@@ -9755,7 +9755,7 @@ const core_1 = __nccwpck_require__(2186);
 const helpers_1 = __nccwpck_require__(3015);
 function setOutputs(release) {
     for (const [key, value] of Object.entries(release)) {
-        const outputName = (0, helpers_1.toSnakeCase)(key);
+        const outputName = (0, helpers_1.toKebabCase)(key);
         (0, core_1.setOutput)(outputName, value);
     }
 }

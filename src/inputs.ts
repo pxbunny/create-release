@@ -40,18 +40,18 @@ function getBooleanInput(name: string, required = false): boolean {
 }
 
 export function getInputs(): Inputs {
-  const tagName = getStringInput('tag_name', [], true)!.replace(
+  const tagName = getStringInput('tag-name', [], true)!.replace(
     'refs/tags/',
     ''
   );
-  const targetCommitish = getStringInput('target_commitish');
+  const targetCommitish = getStringInput('target-commitish');
   const name = getStringInput('name')?.replace('refs/tags/', '');
   const body = getStringInput('body');
   const draft = getBooleanInput('draft');
   const prerelease = getBooleanInput('prerelease');
-  const discussionCategoryName = getStringInput('discussion_category_name');
-  const generateReleaseNotes = getBooleanInput('generate_release_notes');
-  const makeLatest = getStringInput('make_latest', [
+  const discussionCategoryName = getStringInput('discussion-category-name');
+  const generateReleaseNotes = getBooleanInput('generate-release-notes');
+  const makeLatest = getStringInput('make-latest', [
     'true',
     'false',
     'legacy'

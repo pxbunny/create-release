@@ -1,10 +1,10 @@
 name: 'Create release'
 description: 'Creates a release using the GitHub API'
 inputs:
-  tag_name:
+  tag-name:
     description: 'The name of the tag.'
     required: true
-  target_commitish:
+  target-commitish:
     description: 'The commitish value that determines where the Git tag is created from.'
     required: false
   name:
@@ -21,37 +21,37 @@ inputs:
     description: 'true to identify the release as a prerelease. false to identify the release as a full release.'
     required: false
     default: false
-  discussion_category_name:
+  discussion-category-name:
     description: 'The name of the discussion category for this release.'
     required: false
-  generate_release_notes:
+  generate-release-notes:
     description: 'true to generate release notes for the release based on the comparison between the tag specified by tag_name and the tag specified by the default_branch. false to use the body as the full release notes.'
     required: false
     default: false
-  make_latest:
+  make-latest:
     description: 'Specifies whether this release should be set as the latest release for the repository.'
     required: false
     default: false
 outputs:
   id:
     description: 'TODO'
-  node_id:
+  node-id:
     description: 'TODO'
   url:
     description: 'TODO'
-  html_url:
+  html-url:
     description: 'TODO'
-  assets_url:
+  assets-url:
     description: 'TODO'
-  upload_url:
+  upload-url:
     description: 'TODO'
-  tarball_url:
+  tarball-url:
     description: 'TODO'
-  zipball_url:
+  zipball-url:
     description: 'TODO'
-  tag_name:
+  tag-name:
     description: 'TODO'
-  target_commitish:
+  target-commitish:
     description: 'TODO'
   name:
     description: 'TODO'
@@ -61,9 +61,9 @@ outputs:
     description: 'TODO'
   prerelease:
     description: 'TODO'
-  created_at:
+  created-at:
     description: 'TODO'
-  published_at:
+  published-at:
     description: 'TODO'
 runs:
   using: 'node16'
