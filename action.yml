@@ -1,13 +1,37 @@
 name: 'Create release'
 description: 'Creates a release using the GitHub API'
 inputs:
-  input:
-    description: 'description'
+  tag_name:
+    description: 'The name of the tag.'
     required: true
-    default: 'input'
-outputs:
-  output:
-    description: 'output'
+  target_commitish:
+    description: 'The commitish value that determines where the Git tag is created from.'
+    required: false
+  name:
+    description: 'The name of the release.'
+    required: false
+  body:
+    description: 'Text describing the contents of the tag.'
+    required: false
+  draft:
+    description: 'true to create a draft (unpublished) release, false to create a published one.'
+    required: false
+    default: false
+  prerelease:
+    description: 'true to identify the release as a prerelease. false to identify the release as a full release.'
+    required: false
+    default: false
+  discussion_category_name:
+    description: 'The name of the discussion category for this release.'
+    required: false
+  generate_release_notes:
+    description: 'true to generate release notes for the release based on the comparison between the tag specified by tag_name and the tag specified by the repository's default_branch. false to use the release's body as the full release notes.'
+    required: false
+    default: false
+  make_latest:
+    description: 'Specifies whether this release should be set as the latest release for the repository.'
+    required: false
+    default: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

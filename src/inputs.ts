@@ -4,14 +4,14 @@ const EMPTY_ARRAY_SIZE = 0;
 
 export type Inputs = {
   tagName: string;
-  targetCommitish: string;
-  name: string;
+  targetCommitish?: string;
+  name?: string;
   body?: string;
   draft?: boolean;
   prerelease?: boolean;
   discussionCategoryName?: string;
   generateReleaseNotes?: boolean;
-  makeLatest?: boolean;
+  makeLatest?: string;
 };
 
 function getStringInput(
@@ -34,14 +34,14 @@ function getBooleanInput(name: string, required = false): boolean {
 
 export function getInputs(): Inputs {
   const tagName = getStringInput('tag_name', [], true);
-  const targetCommitish = getStringInput('target_commitish', [], true);
-  const name = getStringInput('name', [], true);
+  const targetCommitish = getStringInput('target_commitish');
+  const name = getStringInput('name');
   const body = getStringInput('body');
   const draft = getBooleanInput('draft');
   const prerelease = getBooleanInput('prerelease');
   const discussionCategoryName = getStringInput('discussion_category_name');
   const generateReleaseNotes = getBooleanInput('generate_release_notes');
-  const makeLatest = getBooleanInput('make_latest');
+  const makeLatest = getStringInput('make_latest', ['true', 'false', 'legacy']);
 
   return {
     tagName,
