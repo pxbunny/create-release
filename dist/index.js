@@ -9673,9 +9673,10 @@ function getBooleanInput(name, required = false) {
     return getStringInput(name, ['true', 'false'], required) === 'true';
 }
 function getInputs() {
-    const tagName = getStringInput('tag_name', [], true);
+    var _a;
+    const tagName = getStringInput('tag_name', [], true).replace('refs/tags/', '');
     const targetCommitish = getStringInput('target_commitish');
-    const name = getStringInput('name');
+    const name = (_a = getStringInput('name')) === null || _a === void 0 ? void 0 : _a.replace('refs/tags/', '');
     const body = getStringInput('body');
     const draft = getBooleanInput('draft');
     const prerelease = getBooleanInput('prerelease');
