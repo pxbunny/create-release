@@ -34,37 +34,37 @@ inputs:
     default: false
 outputs:
   id:
-    description: ''
+    description: 'TODO'
   node_id:
-    description: ''
+    description: 'TODO'
   url:
-    description: ''
+    description: 'TODO'
   html_url:
-    description: ''
+    description: 'TODO'
   assets_url:
-    description: ''
+    description: 'TODO'
   upload_url:
-    description: ''
+    description: 'TODO'
   tarball_url:
-    description: ''
+    description: 'TODO'
   zipball_url:
-    description: ''
+    description: 'TODO'
   tag_name:
-    description: ''
+    description: 'TODO'
   target_commitish:
-    description: ''
+    description: 'TODO'
   name:
-    description: ''
+    description: 'TODO'
   body:
-    description: ''
+    description: 'TODO'
   draft:
-    description: ''
+    description: 'TODO'
   prerelease:
-    description: ''
+    description: 'TODO'
   created_at:
-    description: ''
+    description: 'TODO'
   published_at:
-    description: ''
+    description: 'TODO'
 runs:
   using: 'node16'
   main: 'dist/index.js'
