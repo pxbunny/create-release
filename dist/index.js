@@ -9660,6 +9660,9 @@ const core_1 = __nccwpck_require__(2186);
 const EMPTY_ARRAY_SIZE = 0;
 function getStringInput(name, accepted = [], required = false) {
     const input = (0, core_1.getInput)(name, { required });
+    if (!input) {
+        return undefined;
+    }
     if (accepted.length > EMPTY_ARRAY_SIZE &&
         !accepted.includes(input.toLowerCase())) {
         throw new Error(`${name} must be one of ${accepted.join(', ')}`);
@@ -9678,7 +9681,11 @@ function getInputs() {
     const prerelease = getBooleanInput('prerelease');
     const discussionCategoryName = getStringInput('discussion_category_name');
     const generateReleaseNotes = getBooleanInput('generate_release_notes');
-    const makeLatest = getStringInput('make_latest', ['true', 'false', 'legacy']);
+    const makeLatest = getStringInput('make_latest', [
+        'true',
+        'false',
+        'legacy'
+    ]);
     return {
         tagName,
         targetCommitish,

@@ -18,8 +18,12 @@ function getStringInput(
   name: string,
   accepted: string[] = [],
   required = false
-): string {
+): string | undefined {
   const input = getInput(name, { required });
+
+  if (!input) {
+    return undefined;
+  }
 
   if (
     accepted.length > EMPTY_ARRAY_SIZE &&
@@ -36,7 +40,7 @@ function getBooleanInput(name: string, required = false): boolean {
 }
 
 export function getInputs(): Inputs {
-  const tagName = getStringInput('tag_name', [], true);
+  const tagName = getStringInput('tag_name', [], true)!;
   const targetCommitish = getStringInput('target_commitish');
   const name = getStringInput('name');
   const body = getStringInput('body');
@@ -44,7 +48,11 @@ export function getInputs(): Inputs {
   const prerelease = getBooleanInput('prerelease');
   const discussionCategoryName = getStringInput('discussion_category_name');
   const generateReleaseNotes = getBooleanInput('generate_release_notes');
-  const makeLatest = getStringInput('make_latest', ['true', 'false', 'legacy']);
+  const makeLatest = getStringInput('make_latest', [
+    'true',
+    'false',
+    'legacy'
+  ])!;
 
   return {
     tagName,
