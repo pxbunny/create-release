@@ -9634,6 +9634,21 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 3015:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.toSnakeCase = void 0;
+function toSnakeCase(str) {
+    return str.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
+}
+exports.toSnakeCase = toSnakeCase;
+
+
+/***/ }),
+
 /***/ 7063:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -9699,6 +9714,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
 const inputs_1 = __nccwpck_require__(7063);
+const outputs_1 = __nccwpck_require__(1698);
 const release_1 = __nccwpck_require__(7776);
 (function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -9708,13 +9724,34 @@ const release_1 = __nccwpck_require__(7776);
             if (!token) {
                 throw new Error('token not set');
             }
-            yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
+            const release = yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
+            (0, outputs_1.setOutputs)(release);
         }
         catch (error) {
             (0, core_1.setFailed)(error.message);
         }
     });
 })();
+
+
+/***/ }),
+
+/***/ 1698:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.setOutputs = void 0;
+const core_1 = __nccwpck_require__(2186);
+const helpers_1 = __nccwpck_require__(3015);
+function setOutputs(release) {
+    for (const [key, value] of Object.entries(release)) {
+        const outputName = (0, helpers_1.toSnakeCase)(key);
+        (0, core_1.setOutput)(outputName, value);
+    }
+}
+exports.setOutputs = setOutputs;
 
 
 /***/ }),
