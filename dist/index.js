@@ -9643,10 +9643,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getInputs = void 0;
 const core_1 = __nccwpck_require__(2186);
 const EMPTY_ARRAY_SIZE = 0;
-function getStringInput(name, xd = [], required = false) {
+function getStringInput(name, accepted = [], required = false) {
     const input = (0, core_1.getInput)(name, { required });
-    if (xd.length > EMPTY_ARRAY_SIZE && !xd.includes(input.toLowerCase())) {
-        throw new Error(`${name} must be one of ${xd.join(', ')}`);
+    if (accepted.length > EMPTY_ARRAY_SIZE &&
+        !accepted.includes(input.toLowerCase())) {
+        throw new Error(`${name} must be one of ${accepted.join(', ')}`);
     }
     return input;
 }

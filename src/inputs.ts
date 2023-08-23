@@ -16,13 +16,16 @@ export type Inputs = {
 
 function getStringInput(
   name: string,
-  xd: string[] = [],
+  accepted: string[] = [],
   required = false
 ): string {
   const input = getInput(name, { required });
 
-  if (xd.length > EMPTY_ARRAY_SIZE && !xd.includes(input.toLowerCase())) {
-    throw new Error(`${name} must be one of ${xd.join(', ')}`);
+  if (
+    accepted.length > EMPTY_ARRAY_SIZE &&
+    !accepted.includes(input.toLowerCase())
+  ) {
+    throw new Error(`${name} must be one of ${accepted.join(', ')}`);
   }
 
   return input;
