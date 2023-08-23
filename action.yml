@@ -25,7 +25,7 @@ inputs:
     description: 'The name of the discussion category for this release.'
     required: false
   generate_release_notes:
-    description: 'true to generate release notes for the release based on the comparison between the tag specified by tag_name and the tag specified by the repository's default_branch. false to use the release's body as the full release notes.'
+    description: 'true to generate release notes for the release based on the comparison between the tag specified by tag_name and the tag specified by the default_branch. false to use the body as the full release notes.'
     required: false
     default: false
   make_latest:
