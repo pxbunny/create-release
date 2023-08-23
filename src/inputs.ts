@@ -7,11 +7,11 @@ export type Inputs = {
   targetCommitish?: string;
   name?: string;
   body?: string;
-  draft?: boolean;
-  prerelease?: boolean;
-  discussionCategoryName?: string;
-  generateReleaseNotes?: boolean;
-  makeLatest?: string;
+  draft: boolean;
+  prerelease: boolean;
+  discussionCategoryName: string;
+  generateReleaseNotes: boolean;
+  makeLatest: string;
 };
 
 function getStringInput(
