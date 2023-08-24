@@ -40,12 +40,9 @@ function getBooleanInput(name: string, required = false): boolean {
 }
 
 export function getInputs(): Inputs {
-  const tagName = getStringInput('tag-name', [], true)!.replace(
-    'refs/tags/',
-    ''
-  );
+  const tagName = getStringInput('tag-name', [], true)!;
   const targetCommitish = getStringInput('target-commitish');
-  const name = getStringInput('name')?.replace('refs/tags/', '');
+  const name = getStringInput('name');
   const body = getStringInput('body');
   const draft = getBooleanInput('draft');
   const prerelease = getBooleanInput('prerelease');

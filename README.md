@@ -16,6 +16,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag-name: v1.0.0
-          name: Release ${{ github.ref }}
+          name: Release ${{ github.ref_name }}
       - run: echo ${{ steps.create_release.outputs.id }}
 ```
