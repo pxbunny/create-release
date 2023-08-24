@@ -9724,22 +9724,20 @@ const github_1 = __nccwpck_require__(5438);
 const inputs_1 = __nccwpck_require__(7063);
 const outputs_1 = __nccwpck_require__(1698);
 const release_1 = __nccwpck_require__(7776);
-(function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const inputs = (0, inputs_1.getInputs)();
-            const token = process.env.GITHUB_TOKEN;
-            if (!token) {
-                throw new Error('token not set');
-            }
-            const release = yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
-            (0, outputs_1.setOutputs)(release);
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const inputs = (0, inputs_1.getInputs)();
+        const token = process.env.GITHUB_TOKEN;
+        if (!token) {
+            throw new Error('token not set');
         }
-        catch (error) {
-            (0, core_1.setFailed)(error.message);
-        }
-    });
-})();
+        const release = yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
+        (0, outputs_1.setOutputs)(release);
+    }
+    catch (error) {
+        (0, core_1.setFailed)(error.message);
+    }
+}))();
 
 
 /***/ }),

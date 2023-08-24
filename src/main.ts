@@ -5,7 +5,7 @@ import { getInputs } from './inputs';
 import { setOutputs } from './outputs';
 import { createRelease } from './release';
 
-(async function run(): Promise<void> {
+(async (): Promise<void> => {
   try {
     const inputs = getInputs();
     const token = process.env.GITHUB_TOKEN;
