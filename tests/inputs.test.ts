@@ -1,39 +1,42 @@
 import { getInputs } from '../src/inputs';
 
-function unsetEnvVariables() {
-  const inputEnvNames = [
-    'INPUT_TAG-NAME',
-    'INPUT_TARGET-COMMITISH',
-    'INPUT_NAME',
-    'INPUT_BODY',
-    'INPUT_DRAFT',
-    'INPUT_PRERELEASE',
-    'INPUT_DISCUSSION-CATEGORY-NAME',
-    'INPUT_GENERATE-RELEASE-NOTES',
-    'INPUT_MAKE-LATEST'
-  ];
+const inputEnvNames = [
+  'INPUT_TAG-NAME',
+  'INPUT_TARGET-COMMITISH',
+  'INPUT_NAME',
+  'INPUT_BODY',
+  'INPUT_DRAFT',
+  'INPUT_PRERELEASE',
+  'INPUT_DISCUSSION-CATEGORY-NAME',
+  'INPUT_GENERATE-RELEASE-NOTES',
+  'INPUT_MAKE-LATEST'
+] as const;
 
-  inputEnvNames.forEach((name) => {
-    delete process.env[name];
-  });
+function setInput(name: (typeof inputEnvNames)[number], value: string) {
+  process.env[name] = value;
 }
 
 describe('getInputs function', () => {
+  afterEach(() => {
+    inputEnvNames.forEach((name) => {
+      delete process.env[name];
+    });
+  });
+
   it('should return the correct inputs', () => {
     // Arrange
-    process.env['INPUT_TAG-NAME'] = 'v1.0.0';
-    process.env['INPUT_TARGET-COMMITISH'] = 'master';
-    process.env['INPUT_NAME'] = 'Release v1.0.0';
-    process.env['INPUT_BODY'] = 'input body';
-    process.env['INPUT_DRAFT'] = 'true';
-    process.env['INPUT_PRERELEASE'] = 'true';
-    process.env['INPUT_DISCUSSION-CATEGORY-NAME'] = 'discussion category';
-    process.env['INPUT_GENERATE-RELEASE-NOTES'] = 'true';
-    process.env['INPUT_MAKE-LATEST'] = 'legacy';
+    setInput('INPUT_TAG-NAME', 'v1.0.0');
+    setInput('INPUT_TARGET-COMMITISH', 'master');
+    setInput('INPUT_NAME', 'Release v1.0.0');
+    setInput('INPUT_BODY', 'input body');
+    setInput('INPUT_DRAFT', 'true');
+    setInput('INPUT_PRERELEASE', 'true');
+    setInput('INPUT_DISCUSSION-CATEGORY-NAME', 'discussion category');
+    setInput('INPUT_GENERATE-RELEASE-NOTES', 'true');
+    setInput('INPUT_MAKE-LATEST', 'legacy');
 
     // Act
     const inputs = getInputs();
-    unsetEnvVariables();
 
     // Assert
     expect(inputs).toEqual({
@@ -53,15 +56,14 @@ describe('getInputs function', () => {
 describe('getInputs function', () => {
   it('should correctly set default inputs', () => {
     // Arrange
-    process.env['INPUT_TAG-NAME'] = 'v1.0.0';
-    process.env['INPUT_DRAFT'] = 'false';
-    process.env['INPUT_PRERELEASE'] = 'false';
-    process.env['INPUT_GENERATE-RELEASE-NOTES'] = 'false';
-    process.env['INPUT_MAKE-LATEST'] = 'false';
+    setInput('INPUT_TAG-NAME', 'v1.0.0');
+    setInput('INPUT_DRAFT', 'false');
+    setInput('INPUT_PRERELEASE', 'false');
+    setInput('INPUT_GENERATE-RELEASE-NOTES', 'false');
+    setInput('INPUT_MAKE-LATEST', 'false');
 
     // Act
     const inputs = getInputs();
-    unsetEnvVariables();
 
     // Assert
     expect(inputs).toEqual({
@@ -79,10 +81,10 @@ describe('getInputs function', () => {
 
   it('should throw an error if the tag name is not provided', () => {
     // Arrange
+    setInput('INPUT_TAG-NAME', '');
 
     // Act
     const actual = () => getInputs();
-    unsetEnvVariables();
 
     // Assert
     expect(actual).toThrowError('Input required and not supplied: tag-name');
