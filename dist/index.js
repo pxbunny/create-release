@@ -9776,16 +9776,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createRelease = void 0;
 const github_1 = __nccwpck_require__(5438);
 function createRelease(repoContext, inputs, token) {
     return __awaiter(this, void 0, void 0, function* () {
         const { repos } = (0, github_1.getOctokit)(token).rest;
-        const { tagName, targetCommitish, discussionCategoryName, generateReleaseNotes, makeLatest } = inputs;
-        const { data } = yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), inputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));
-        const { node_id, html_url, assets_url, upload_url, tarball_url, zipball_url, tag_name, target_commitish, created_at, published_at } = data;
-        return Object.assign(Object.assign({}, data), { nodeId: node_id, htmlUrl: html_url, assetsUrl: assets_url, uploadUrl: upload_url, tarballUrl: tarball_url !== null && tarball_url !== void 0 ? tarball_url : undefined, zipballUrl: zipball_url !== null && zipball_url !== void 0 ? zipball_url : undefined, tagName: tag_name, targetCommitish: target_commitish, createdAt: created_at, publishedAt: published_at !== null && published_at !== void 0 ? published_at : undefined });
+        const { tagName, targetCommitish, discussionCategoryName, generateReleaseNotes, makeLatest } = inputs, otherInputs = __rest(inputs, ["tagName", "targetCommitish", "discussionCategoryName", "generateReleaseNotes", "makeLatest"]);
+        const { data } = yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), otherInputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));
+        const { node_id, html_url, assets_url, upload_url, tarball_url, zipball_url, tag_name, target_commitish, created_at, published_at } = data, otherData = __rest(data, ["node_id", "html_url", "assets_url", "upload_url", "tarball_url", "zipball_url", "tag_name", "target_commitish", "created_at", "published_at"]);
+        return Object.assign(Object.assign({}, otherData), { nodeId: node_id, htmlUrl: html_url, assetsUrl: assets_url, uploadUrl: upload_url, tarballUrl: tarball_url !== null && tarball_url !== void 0 ? tarball_url : undefined, zipballUrl: zipball_url !== null && zipball_url !== void 0 ? zipball_url : undefined, tagName: tag_name, targetCommitish: target_commitish, createdAt: created_at, publishedAt: published_at !== null && published_at !== void 0 ? published_at : undefined });
     });
 }
 exports.createRelease = createRelease;
