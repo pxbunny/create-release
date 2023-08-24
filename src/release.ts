@@ -37,12 +37,13 @@ export async function createRelease(
     targetCommitish,
     discussionCategoryName,
     generateReleaseNotes,
-    makeLatest
+    makeLatest,
+    ...otherInputs
   } = inputs;
 
   const { data } = await repos.createRelease({
     ...repoContext,
-    ...inputs,
+    ...otherInputs,
     tag_name: tagName,
     target_commitish: targetCommitish,
     discussion_category_name: discussionCategoryName,
@@ -60,11 +61,12 @@ export async function createRelease(
     tag_name,
     target_commitish,
     created_at,
-    published_at
+    published_at,
+    ...otherData
   } = data;
 
   return {
-    ...data,
+    ...otherData,
     nodeId: node_id,
     htmlUrl: html_url,
     assetsUrl: assets_url,
