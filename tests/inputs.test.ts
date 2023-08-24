@@ -51,9 +51,7 @@ describe('getInputs function', () => {
       makeLatest: 'legacy'
     });
   });
-});
 
-describe('getInputs function', () => {
   it('should correctly set default inputs', () => {
     // Arrange
     setInput('INPUT_TAG-NAME', 'v1.0.0');
@@ -80,13 +78,7 @@ describe('getInputs function', () => {
   });
 
   it('should throw an error if the tag name is not provided', () => {
-    // Arrange
-    setInput('INPUT_TAG-NAME', '');
-
-    // Act
     const actual = () => getInputs();
-
-    // Assert
     expect(actual).toThrowError('Input required and not supplied: tag-name');
   });
 });
