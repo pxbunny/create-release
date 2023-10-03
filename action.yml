@@ -25,7 +25,7 @@ inputs:
     description: 'The name of the discussion category for this release.'
     required: false
   generate-release-notes:
-    description: 'true to generate release notes for the release based on the comparison between the tag specified by tag_name and the tag specified by the default_branch. false to use the body as the full release notes.'
+    description: 'true to generate release notes for the release based on the comparison between the tag specified by tag-name and the tag specified by the default-branch. false to use the body as the full release notes.'
     required: false
     default: false
   make-latest:
@@ -34,37 +34,37 @@ inputs:
     default: false
 outputs:
   id:
-    description: 'TODO'
+    description: 'The ID of the release'
   node-id:
-    description: 'TODO'
+    description: 'The Node ID of the release'
   url:
-    description: 'TODO'
+    description: 'The URL of the release'
   html-url:
-    description: 'TODO'
+    description: 'The HTML URL of the release'
   assets-url:
-    description: 'TODO'
+    description: 'The URL of the release assets'
   upload-url:
-    description: 'TODO'
+    description: 'The URL to upload release assets to'
   tarball-url:
-    description: 'TODO'
+    description: 'The URL of the release tarball'
   zipball-url:
-    description: 'TODO'
+    description: 'The URL of the release zipball'
   tag-name:
-    description: 'TODO'
+    description: 'The name of the tag that was created'
   target-commitish:
-    description: 'TODO'
+    description: 'The commitish value that determines where the Git tag is created from'
   name:
-    description: 'TODO'
+    description: 'The name of the release'
   body:
-    description: 'TODO'
+    description: 'Text describing the contents of the tag'
   draft:
-    description: 'TODO'
+    description: 'true if the release is a draft (unpublished) release, false if the release is published'
   prerelease:
-    description: 'TODO'
+    description: 'true if the release is identified as a prerelease release, false if the release is identified as a full release'
   created-at:
-    description: 'TODO'
+    description: 'The date and time the release was created'
   published-at:
-    description: 'TODO'
+    description: 'The date and time the release was published at'
 runs:
   using: 'node16'
   main: 'dist/index.js'
