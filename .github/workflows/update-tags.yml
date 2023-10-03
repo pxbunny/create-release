@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Log level'
+        description: 'specific version'
         required: false
         type: string
       update-type:
-        description: 'Test scenario tags'
+        description: 'version update type'
         required: false
         default: 'patch'
         type: choice
@@ -19,17 +19,26 @@ on:
 
 jobs:
   update-tags:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Set up Git
+        run: |
+          git config user.email '${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com'
+          git config user.name '${GITHUB_ACTOR}'
+      - name: Add permissions
+        run: |
+          chmod +x update-tags-script/update_tags.sh
       - name: Run script
         run: |
-          chmod +x ./update-tags-script/update-tags.sh
           if [ -z "${{ github.event.inputs.version }}" ]; then
-            ./update-tags-script/update-tags.sh -t ${{ github.event.inputs.update-type }}
+            update-tags-script/update_tags.sh -f -t ${{ github.event.inputs.update-type }}
           else
-            ./update-tags-script/update-tags.sh -v ${{ github.event.inputs.version }} -t ${{ github.event.inputs.update-type }}
+            update-tags-script/update_tags.sh -f -v ${{ github.event.inputs.version }} -t ${{ github.event.inputs.update-type }}
           fi
         shell: bash
-
