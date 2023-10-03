@@ -1,0 +1,35 @@
+name: Update tags
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Log level'
+        required: false
+        type: string
+      update-type:
+        description: 'Test scenario tags'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  update-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          chmod +x ./update-tags-script/update-tags.sh
+          if [ -z "${{ github.event.inputs.version }}" ]; then
+            ./update-tags-script/update-tags.sh -t ${{ github.event.inputs.update-type }}
+          else
+            ./update-tags-script/update-tags.sh -v ${{ github.event.inputs.version }} -t ${{ github.event.inputs.update-type }}
+          fi
+        shell: bash
+
