@@ -1,5 +1,7 @@
 # create-release
 
+GitHub Action for creating releases on GitHub.
+
 ## Inputs
 
 - `tag-name` - The name of the tag to create
