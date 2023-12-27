@@ -1,4 +1,4 @@
-import { getInputs } from '../src/inputs';
+import { getInputs } from '../src/io';
 
 const inputEnvNames = [
   'INPUT_TAG-NAME',

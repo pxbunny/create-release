@@ -9634,37 +9634,22 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 3015:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toKebabCase = void 0;
-function toKebabCase(str) {
-    return str.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-}
-exports.toKebabCase = toKebabCase;
-
-
-/***/ }),
-
-/***/ 7063:
+/***/ 8672:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getInputs = void 0;
+exports.setOutputs = exports.getInputs = void 0;
 const core_1 = __nccwpck_require__(2186);
+const utils_1 = __nccwpck_require__(1314);
 const EMPTY_ARRAY_SIZE = 0;
 function getStringInput(name, accepted = [], required = false) {
     const input = (0, core_1.getInput)(name, { required });
     if (!input) {
         return undefined;
     }
-    if (accepted.length > EMPTY_ARRAY_SIZE &&
-        !accepted.includes(input.toLowerCase())) {
+    if (accepted.length > EMPTY_ARRAY_SIZE && !accepted.includes(input.toLowerCase())) {
         throw new Error(`${name} must be one of ${accepted.join(', ')}`);
     }
     return input;
@@ -9681,11 +9666,7 @@ function getInputs() {
     const prerelease = getBooleanInput('prerelease');
     const discussionCategoryName = getStringInput('discussion-category-name');
     const generateReleaseNotes = getBooleanInput('generate-release-notes');
-    const makeLatest = getStringInput('make-latest', [
-        'true',
-        'false',
-        'legacy'
-    ]);
+    const makeLatest = getStringInput('make-latest', ['true', 'false', 'legacy']);
     return {
         tagName,
         targetCommitish,
@@ -9699,6 +9680,13 @@ function getInputs() {
     };
 }
 exports.getInputs = getInputs;
+function setOutputs(release) {
+    for (const [key, value] of Object.entries(release)) {
+        const outputName = (0, utils_1.toKebabCase)(key);
+        (0, core_1.setOutput)(outputName, value);
+    }
+}
+exports.setOutputs = setOutputs;
 
 
 /***/ }),
@@ -9720,43 +9708,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
-const inputs_1 = __nccwpck_require__(7063);
-const outputs_1 = __nccwpck_require__(1698);
+const io_1 = __nccwpck_require__(8672);
 const release_1 = __nccwpck_require__(7776);
+const utils_1 = __nccwpck_require__(1314);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const inputs = (0, inputs_1.getInputs)();
+        const inputs = (0, io_1.getInputs)();
         const token = process.env.GITHUB_TOKEN;
-        if (!token) {
-            throw new Error('token not set');
-        }
+        utils_1.Guard.againstEmptyOrWhiteSpace(token, 'GITHUB_TOKEN');
         const release = yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
-        (0, outputs_1.setOutputs)(release);
+        (0, io_1.setOutputs)(release);
     }
     catch (error) {
         (0, core_1.setFailed)(error.message);
     }
 }))();
-
-
-/***/ }),
-
-/***/ 1698:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.setOutputs = void 0;
-const core_1 = __nccwpck_require__(2186);
-const helpers_1 = __nccwpck_require__(3015);
-function setOutputs(release) {
-    for (const [key, value] of Object.entries(release)) {
-        const outputName = (0, helpers_1.toKebabCase)(key);
-        (0, core_1.setOutput)(outputName, value);
-    }
-}
-exports.setOutputs = setOutputs;
 
 
 /***/ }),
@@ -9789,8 +9755,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createRelease = void 0;
 const github_1 = __nccwpck_require__(5438);
+const utils_1 = __nccwpck_require__(1314);
 function createRelease(repoContext, inputs, token) {
     return __awaiter(this, void 0, void 0, function* () {
+        utils_1.Guard.againstEmptyOrWhiteSpace(token, 'token');
         const { repos } = (0, github_1.getOctokit)(token).rest;
         const { tagName, targetCommitish, discussionCategoryName, generateReleaseNotes, makeLatest } = inputs, otherInputs = __rest(inputs, ["tagName", "targetCommitish", "discussionCategoryName", "generateReleaseNotes", "makeLatest"]);
         const { data } = yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), otherInputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));
@@ -9799,6 +9767,39 @@ function createRelease(repoContext, inputs, token) {
     });
 }
 exports.createRelease = createRelease;
+
+
+/***/ }),
+
+/***/ 1314:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Guard = exports.ArgumentError = exports.toKebabCase = void 0;
+function toKebabCase(str) {
+    return str.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+}
+exports.toKebabCase = toKebabCase;
+class ArgumentError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ArgumentError';
+    }
+}
+exports.ArgumentError = ArgumentError;
+class Guard {
+    static againstEmptyOrWhiteSpace(value, name) {
+        if (!value || Guard.isBlank(value)) {
+            throw new ArgumentError(`${name} is empty or white space`);
+        }
+    }
+    static isBlank(str) {
+        return !str || /^\s*$/.test(str);
+    }
+}
+exports.Guard = Guard;
 
 
 /***/ }),

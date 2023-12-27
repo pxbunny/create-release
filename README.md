@@ -1,18 +1,18 @@
 # create-release
 
-GitHub Action for creating releases on GitHub.
+GitHub Action for creating releases on GitHub. This action is a wrapper around the [Create a release](https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release) endpoint in the [GitHub REST API](https://docs.github.com/en/rest).
 
 ## Inputs
 
 - `tag-name` - The name of the tag to create
-- `target-commitish` - The commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch (usually `main`)
+- `target-commitish` - The commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch (usually **main**)
 - `name` - The name of the release
 - `body` - Text describing the contents of the tag
-- `draft` - `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
-- `prerelease` - `true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
+- `draft` - **true** to create a draft (unpublished) release, **false** to create a published one. Default: **false**
+- `prerelease` - **true** to identify the release as a prerelease. **false** to identify the release as a full release. Default: **false**
 - `discussion-category-name` - The name of the discussion category to associate with this release
-- `generate-release-notes` - `true` to generate release notes for the release. `false` to skip the generation of release notes. Default: `false`
-- `make-latest` - `true` to update the repository's default branch with the newly created tag. `false` to skip updating the default branch. Default: `false`
+- `generate-release-notes` - **true** to generate release notes for the release. **false** to skip the generation of release notes. Default: **false**
+- `make-latest` - **true** to update the repository's default branch with the newly created tag. **false** to skip updating the default branch. Default: **false**
 
 ## Outputs
 
@@ -28,22 +28,29 @@ GitHub Action for creating releases on GitHub.
 - `target-commitish` - The commitish value that determines where the Git tag is created from
 - `name` - The name of the release
 - `body` - Text describing the contents of the tag
-- `draft` - `true` if the release is a draft (unpublished) release, `false` if the release is published
-- `prerelease` - `true` if the release is identified as a prerelease release, `false` if the release is identified as a full release
+- `draft` - **true** if the release is a draft (unpublished) release, **false** if the release is published
+- `prerelease` - **true** if the release is identified as a prerelease release, **false** if the release is identified as a full release
 - `created-at` - The date and time the release was created
 - `published-at` - The date and time the release was published at
 
 ## Example
 
 ```yml
+name: Create release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
 jobs:
   build:
-    name: Create Release
+    name: Create release
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create Release
         id: create_release
         uses: dae-ne/create-release@main
