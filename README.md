@@ -15,6 +15,10 @@ GitHub Action for creating releases on GitHub. This action is a wrapper around t
 - `generate-release-notes` - **true** to generate release notes for the release. **false** to skip the generation of release notes. Default: **false**
 - `make-latest` - **true** to update the repository's default branch with the newly created tag. **false** to skip updating the default branch. Default: **false**
 
+## Environment variables
+
+- `GITHUB_TOKEN` - The GitHub token to use for authentication. It's used when `token` input is not specified
+
 ## Outputs
 
 - `id` - The ID of the release
