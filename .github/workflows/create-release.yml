@@ -21,4 +21,3 @@ jobs:
         with:
           tag-name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-      - run: echo ${{ steps.create_release.outputs.id }}
