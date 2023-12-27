@@ -39,7 +39,7 @@ GitHub Action for creating releases on GitHub. This action is a wrapper around t
 name: Create release
 
 on:
-  push:
+  create:
     tags:
       - 'v*'
 
@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Create Release
         id: create_release
-        uses: dae-ne/create-release@main
+        uses: dae-ne/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
