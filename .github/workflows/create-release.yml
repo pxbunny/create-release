@@ -1,12 +1,9 @@
 name: Create release
 
 on:
-  push:
-    tags:
-      - '*'
   create:
     tags:
-      - '*'
+      - 'v*.*.*'
 
 jobs:
   build:

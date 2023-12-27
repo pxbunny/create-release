@@ -19,16 +19,11 @@ on:
 
 jobs:
   update-tags:
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}
           submodules: true
       - name: Set up Git
         run: |
