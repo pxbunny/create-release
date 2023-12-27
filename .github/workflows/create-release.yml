@@ -1,9 +1,9 @@
 name: Create release
 
 on:
-  create:
+  push:
     tags:
-      - 'v*.*.*'
+      - '*'
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
         id: create_release
         uses: dae-ne/create-release@main
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag-name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
