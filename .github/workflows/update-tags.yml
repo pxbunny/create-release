@@ -20,6 +20,8 @@ on:
 jobs:
   update-tags:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,8 +35,6 @@ jobs:
         run: |
           chmod +x update-tags-script/update_tags.sh
       - name: Run script
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           if [ -z "${{ github.event.inputs.version }}" ]; then
             update-tags-script/update_tags.sh -f -t ${{ github.event.inputs.update-type }}
