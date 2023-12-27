@@ -46,7 +46,8 @@ on:
 jobs:
   build:
     name: Create release
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
