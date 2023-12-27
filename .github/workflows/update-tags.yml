@@ -28,6 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.PAT_TOKEN }}
           submodules: true
       - name: Set up Git
         run: |
@@ -37,6 +38,8 @@ jobs:
         run: |
           chmod +x update-tags-script/update_tags.sh
       - name: Run script
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           if [ -z "${{ github.event.inputs.version }}" ]; then
             update-tags-script/update_tags.sh -f -t ${{ github.event.inputs.update-type }}
