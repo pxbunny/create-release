@@ -9658,6 +9658,7 @@ function getBooleanInput(name, required = false) {
     return getStringInput(name, ['true', 'false'], required) === 'true';
 }
 function getInputs() {
+    const token = getStringInput('token');
     const tagName = getStringInput('tag-name', [], true);
     const targetCommitish = getStringInput('target-commitish');
     const name = getStringInput('name');
@@ -9668,6 +9669,7 @@ function getInputs() {
     const generateReleaseNotes = getBooleanInput('generate-release-notes');
     const makeLatest = getStringInput('make-latest', ['true', 'false', 'legacy']);
     return {
+        token,
         tagName,
         targetCommitish,
         name,
@@ -9705,6 +9707,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
@@ -9713,9 +9726,10 @@ const release_1 = __nccwpck_require__(7776);
 const utils_1 = __nccwpck_require__(1314);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const inputs = (0, io_1.getInputs)();
-        const token = process.env.GITHUB_TOKEN;
-        utils_1.Guard.againstEmptyOrWhiteSpace(token, 'GITHUB_TOKEN');
+        const _a = (0, io_1.getInputs)(), { token: inputToken } = _a, inputs = __rest(_a, ["token"]);
+        const envToken = process.env.GITHUB_TOKEN;
+        const token = inputToken !== null && inputToken !== void 0 ? inputToken : envToken;
+        utils_1.Guard.againstEmptyOrWhiteSpace(token, 'token');
         const release = yield (0, release_1.createRelease)(github_1.context.repo, inputs, token);
         (0, io_1.setOutputs)(release);
     }
@@ -9755,10 +9769,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createRelease = void 0;
 const github_1 = __nccwpck_require__(5438);
-const utils_1 = __nccwpck_require__(1314);
 function createRelease(repoContext, inputs, token) {
     return __awaiter(this, void 0, void 0, function* () {
-        utils_1.Guard.againstEmptyOrWhiteSpace(token, 'token');
         const { repos } = (0, github_1.getOctokit)(token).rest;
         const { tagName, targetCommitish, discussionCategoryName, generateReleaseNotes, makeLatest } = inputs, otherInputs = __rest(inputs, ["tagName", "targetCommitish", "discussionCategoryName", "generateReleaseNotes", "makeLatest"]);
         const { data } = yield repos.createRelease(Object.assign(Object.assign(Object.assign({}, repoContext), otherInputs), { tag_name: tagName, target_commitish: targetCommitish, discussion_category_name: discussionCategoryName, generate_release_notes: generateReleaseNotes, make_latest: makeLatest }));

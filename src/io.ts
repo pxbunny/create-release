@@ -17,6 +17,10 @@ export type Inputs = {
   makeLatest: string;
 };
 
+export type InputsWithToken = Inputs & {
+  token?: string;
+};
+
 function getStringInput(
   name: string,
   accepted: string[] = [],
@@ -39,7 +43,8 @@ function getBooleanInput(name: string, required = false): boolean {
   return getStringInput(name, ['true', 'false'], required) === 'true';
 }
 
-export function getInputs(): Inputs {
+export function getInputs(): InputsWithToken {
+  const token = getStringInput('token');
   const tagName = getStringInput('tag-name', [], true)!;
   const targetCommitish = getStringInput('target-commitish');
   const name = getStringInput('name');
@@ -51,6 +56,7 @@ export function getInputs(): Inputs {
   const makeLatest = getStringInput('make-latest', ['true', 'false', 'legacy'])!;
 
   return {
+    token,
     tagName,
     targetCommitish,
     name,

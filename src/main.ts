@@ -7,9 +7,10 @@ import { Guard } from './utils';
 
 (async (): Promise<void> => {
   try {
-    const inputs = getInputs();
-    const token = process.env.GITHUB_TOKEN;
-    Guard.againstEmptyOrWhiteSpace(token, 'GITHUB_TOKEN');
+    const { token: inputToken, ...inputs } = getInputs();
+    const envToken = process.env.GITHUB_TOKEN;
+    const token = inputToken ?? envToken;
+    Guard.againstEmptyOrWhiteSpace(token, 'token');
 
     const release = await createRelease(context.repo, inputs, token!);
     setOutputs(release);

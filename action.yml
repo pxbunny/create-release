@@ -1,6 +1,9 @@
 name: 'Create release'
 description: 'Creates a release using the GitHub API'
 inputs:
+  token:
+    description: 'The GitHub token used to authenticate with the GitHub API.'
+    required: false
   tag-name:
     description: 'The name of the tag.'
     required: true

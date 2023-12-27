@@ -4,6 +4,7 @@ GitHub Action for creating releases on GitHub. This action is a wrapper around t
 
 ## Inputs
 
+- `token` - The GitHub token to use for authentication. When not specified, GITHUB_TOKEN env variable is used
 - `tag-name` - The name of the tag to create
 - `target-commitish` - The commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch (usually **main**)
 - `name` - The name of the release
@@ -54,10 +55,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Create Release
         id: create_release
-        uses: dae-ne/create-release@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: dae-ne/create-release@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag-name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
       - run: echo ${{ steps.create_release.outputs.id }}

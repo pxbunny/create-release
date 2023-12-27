@@ -1,7 +1,6 @@
 import { getOctokit } from '@actions/github';
 
 import { Inputs } from './io';
-import { Guard } from './utils';
 
 type RepoContext = {
   owner: string;
@@ -32,8 +31,6 @@ export async function createRelease(
   inputs: Inputs,
   token: string
 ): Promise<Release> {
-  Guard.againstEmptyOrWhiteSpace(token, 'token');
-
   const { repos } = getOctokit(token).rest;
   const {
     tagName,
