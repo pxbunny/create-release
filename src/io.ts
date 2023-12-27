@@ -1,4 +1,7 @@
-import { getInput } from '@actions/core';
+import { getInput, setOutput } from '@actions/core';
+
+import { Release } from './release';
+import { toKebabCase } from './utils';
 
 const EMPTY_ARRAY_SIZE = 0;
 
@@ -25,10 +28,7 @@ function getStringInput(
     return undefined;
   }
 
-  if (
-    accepted.length > EMPTY_ARRAY_SIZE &&
-    !accepted.includes(input.toLowerCase())
-  ) {
+  if (accepted.length > EMPTY_ARRAY_SIZE && !accepted.includes(input.toLowerCase())) {
     throw new Error(`${name} must be one of ${accepted.join(', ')}`);
   }
 
@@ -48,11 +48,7 @@ export function getInputs(): Inputs {
   const prerelease = getBooleanInput('prerelease');
   const discussionCategoryName = getStringInput('discussion-category-name');
   const generateReleaseNotes = getBooleanInput('generate-release-notes');
-  const makeLatest = getStringInput('make-latest', [
-    'true',
-    'false',
-    'legacy'
-  ])!;
+  const makeLatest = getStringInput('make-latest', ['true', 'false', 'legacy'])!;
 
   return {
     tagName,
@@ -65,4 +61,11 @@ export function getInputs(): Inputs {
     generateReleaseNotes,
     makeLatest
   };
+}
+
+export function setOutputs(release: Release): void {
+  for (const [key, value] of Object.entries(release)) {
+    const outputName = toKebabCase(key);
+    setOutput(outputName, value);
+  }
 }
