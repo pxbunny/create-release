@@ -69,5 +69,5 @@ outputs:
   published-at:
     description: 'The date and time the release was published at'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
