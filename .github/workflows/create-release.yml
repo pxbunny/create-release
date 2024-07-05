@@ -1,9 +1,21 @@
 name: Create release
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'specific version'
+        required: false
+        type: string
+      update-type:
+        description: 'version update type'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   build:
@@ -14,10 +26,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Update tags
+        id: update_tags
+        uses: dae-ne/update-tags@main
+        with:
+          type: ${{ github.event.inputs.update-type }}
+          version: ${{ github.event.inputs.version }}
       - name: Create Release
-        id: create_release
         uses: dae-ne/create-release@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag-name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          tag-name: ${{ steps.update_tags.outputs.version }}
+          name: Release ${{ steps.update_tags.outputs.version }}
