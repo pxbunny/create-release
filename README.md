@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Create Release
         id: create_release
-        uses: dae-ne/create-release@v2
+        uses: rczaka/create-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag-name: ${{ github.ref_name }}
